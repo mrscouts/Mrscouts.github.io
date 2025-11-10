@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Scouts - Professional Video Editor</title>
+    <meta name="description" content="Professional Video Editor | Color Grading | Motion Graphics | Hassan, Karnataka">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #00bfff;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #e0e0e0;
+            --gray: #2a2a2a;
+            --white: #ffffff;
+            --light-bg: #f8f9fa;
+            --light-text: #212529;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family:'Poppins','Segoe UI',Arial,sans-serif;
+            background:var(--dark);
+            color:var(--light);
+            line-height:1.7;
+            overflow-x:hidden;
+            transition:background .4s,color .4s;
+        }
+        body.light {
+            background:var(--light-bg);
+            color:var(--light-text);
+        }
+
+        /* ----- Theme Toggle ----- */
+        .theme-toggle{
+            position:fixed;top:20px;right:20px;
+            background:rgba(0,0,0,.5);color:#fff;
+            width:50px;height:50px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            font-size:1.5rem;cursor:pointer;z-index:9999;
+            backdrop-filter:blur(15px);
+            border:2px solid rgba(255,255,255,.2);
+            transition:all .4s;
+            box-shadow:0 4px 15px rgba(0,0,0,.3);
+        }
+        .theme-toggle:hover{transform:scale(1.15) rotate(20deg);}
+        body.light .theme-toggle{
+            background:rgba(255,255,255,.8);color:#333;
+            border:2px solid rgba(0,0,0,.2);
+        }
+
+        /* ----- Header & Nav ----- */
+        header{
+            background:var(--darker);position:fixed;width:100%;top:0;z-index:1000;
+            padding:1.2rem 0;border-bottom:1px solid #333;
+            transition:all .4s;backdrop-filter:blur(10px);
+        }
+        body.light header{
+            background:rgba(255,255,255,.95);
+            border-bottom:1px solid #eee;
+            box-shadow:0 2px 20px rgba(0,0,0,.1);
+        }
+        nav{display:flex;justify-content:space-between;align-items:center;}
+        .logo{font-size:1.8rem;font-weight:700;color:var(--primary);text-decoration:none;}
+        body.light .logo{color:#007bff;}
+        .nav-links{display:flex;gap:2.5rem;}
+        .nav-links a{
+            color:var(--light);text-decoration:none;font-weight:500;
+            transition:.3s;position:relative;
+        }
+        .nav-links a::after{
+            content:'';position:absolute;width:0;height:2px;bottom:-8px;left:0;
+            background:var(--primary);transition:.3s;
+        }
+        .nav-links a:hover::after{width:100%;}
+        .nav-links a:hover{color:var(--primary);}
+        body.light .nav-links a{color:#333;}
+        body.light .nav-links a:hover{color:#007bff;}
+        .hamburger{display:none;cursor:pointer;font-size:1.5rem;color:var(--primary);}
+
+        /* ----- Hero ----- */
+        .hero{
+            height:100vh;
+            background:linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
+                       url('https://i.postimg.cc/fStQdKMk/Picsart-25-11-06-20-23-11-334.jpg') center/cover no-repeat fixed;
+            display:flex;flex-direction:column;justify-content:center;align-items:center;
+            text-align:center;padding:0 20px;
+        }
+        .hero h1{
+            font-size:4.5rem;font-weight:700;margin-bottom:1rem;
+            background:linear-gradient(45deg,#00bfff,#00ff88);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+        }
+        .hero p{font-size:1.5rem;margin-bottom:1.5rem;}
+        .tagline{font-size:1.8rem;max-width:800px;margin:2rem auto;font-style:italic;}
+        .tagline strong{color:var(--primary);}
+
+        /* ----- Sections ----- */
+        section{padding:100px 0;}
+        h2{font-size:3rem;text-align:center;margin-bottom:3rem;color:var(--primary);}
+        body.light h2{color:#007bff;}
+
+        /* ----- About ----- */
+        #about .container{
+            display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+        }
+        .about-text h2{text-align:left;}
+        .skills{margin-top:2rem;}
+        .skill{margin-bottom:1.5rem;}
+        .skill-name{display:flex;justify-content:space-between;margin-bottom:.5rem;font-weight:600;}
+        .skill-bar{height:10px;background:#333;border-radius:5px;overflow:hidden;}
+        body.light .skill-bar{background:#ddd;}
+        .skill-fill{
+            height:100%;background:linear-gradient(90deg,#00bfff,#00ff88);
+            width:0;border-radius:5px;transition:width 2s ease;
+        }
+
+        /* ----- Portfolio ----- */
+        #portfolio{background:var(--gray);}
+        body.light #portfolio{background:#f5f5f5;}
+        .portfolio-grid{
+            display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:2.5rem;
+            padding:0 20px;
+        }
+        .video-card{
+            background:#1a1a1a;border-radius:20px;overflow:hidden;
+            box-shadow:0 15px 35px rgba(0,0,0,.4);transition:all .4s ease;
+            position:relative;
+        }
+        body.light .video-card{
+            background:#fff;box-shadow:0 15px 35px rgba(0,0,0,.1);
+        }
+        .video-card:hover{
+            transform:translateY(-15px);
+            box-shadow:0 25px 50px rgba(0,191,255,.4);
+        }
+        .instagram-wrapper{
+            position:relative;padding-bottom:125%; /* Perfect for Instagram Reels */
+            overflow:hidden;
+        }
+        .instagram-wrapper blockquote{
+            position:absolute;top:0;left:0;width:100%;height:100%;
+            margin:0;border:none;
+        }
+        .video-info{
+            padding:1.8rem;text-align:center;
+        }
+        .video-info h3{
+            color:var(--primary);font-size:1.4rem;margin-bottom:.5rem;
+        }
+        body.light .video-info h3{color:#007bff;}
+        .instagram-credit{
+            font-size:0.8rem;color:#888;margin-top:8px;opacity:0.8;
+        }
+
+        /* ----- Collaborate ----- */
+        #collaborate{
+            text-align:center;
+            background:linear-gradient(135deg,#1a1a2e,#16213e);
+        }
+        body.light #collaborate{
+            background:linear-gradient(135deg,#e3f2fd,#bbdefb);
+        }
+        .collab-content h1{font-size:3rem;margin-bottom:1rem;}
+        .services{
+            display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:2rem;margin:3rem 0;
+        }
+        .service-card{
+            background:rgba(255,255,255,.1);padding:2rem;
+            border-radius:
+
+15px;backdrop-filter:blur(10px);
+            border:1px solid rgba(255,255,255,.2);
+        }
+        body.light .service-card{
+            background:#fff;border:1px solid #ddd;
+            box-shadow:0 10px 30px rgba(0,0,0,.1);
+        }
+        .testimonial{
+            font-size:1.5rem;margin:3rem 0;font-style:italic;color:var(--primary);
+        }
+        .btn{
+            display:inline-block;padding:1rem 2.5rem;
+            background:var(--primary);color:#fff;border-radius:50px;
+            text-decoration:none;font-weight:600;transition:.4s;margin-top:2rem;
+        }
+        .btn:hover{
+            background:#00ff88;transform:translateY(-5px);
+            box-shadow:0 10px 30px rgba(0,255,136,.4);
+        }
+
+        /* ----- Contact ----- */
+        #contact{background:var(--darker);}
+        body.light #contact{background:#f8f9fa;}
+        .contact-wrapper{
+            display:grid;grid-template-columns:1fr 1fr;gap:4rem;
+        }
+        .contact-info a{
+            display:block;margin:1rem 0;color:var(--primary);
+            text-decoration:none;font-size:1.1rem;
+        }
+        .contact-info i{margin-right:10px;width:20px;}
+        .social-links a{
+            margin:0 15px;font-size:1.9rem;color:var(--primary);transition:.3s;
+        }
+        .social-links a:hover{transform:translateY(-4px);}
+        form input,form textarea{
+            width:100%;padding:1rem;margin:1rem 0;
+            border:none;border-radius:10px;background:#333;
+            color:#fff;font-family:inherit;
+        }
+        body.light form input,
+        body.light form textarea{
+            background:#fff;color:#333;border:1px solid #ddd;
+        }
+        form button{
+            background:var(--primary);color:#fff;border:none;
+            padding:1rem 2rem;border-radius:50px;cursor:pointer;
+            font-weight:600;transition:.4s;
+        }
+        form button:hover{
+            background:#00ff88;transform:scale(1.05);
+        }
+
+        /* ----- WhatsApp Float ----- */
+        .whatsapp-float{
+            position:fixed;bottom:25px;right:25px;
+            background:#25D366;color:#fff;width:65px;height:65px;
+            border-radius:50%;font-size:35px;box-shadow:0 8px 25px rgba(37,211,102,.4);
+            z-index:1000;display:flex;align-items:center;justify-content:center;
+            animation:pulse 2s infinite;transition:.4s;
+        }
+        .whatsapp-float:hover{
+            transform:scale(1.2);background:#128C7E;
+        }
+        @keyframes pulse{
+            0%{box-shadow:0 0 0 0 rgba(37,211,102,.7);}
+            70%{box-shadow:0 0 0 15px rgba(37,211,102,0);}
+            100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}
+        }
+
+        /* ----- Footer ----- */
+        footer{
+            background:#0a0a0a;padding:3rem 0;text-align:center;font-size:.9rem;
+        }
+        body.light footer{background:#333;color:#ddd;}
+
+        /* ----- Responsive ----- */
+        @media (max-width:768px){
+            .hamburger{display:block;}
+            .nav-links{
+                position:fixed;top:80px;left:-100%;width:100%;height:100vh;
+                background:var(--darker);flex-direction:column;
+                align-items:center;justify-content:center;transition:.5s;
+                backdrop-filter:blur(10px);
+            }
+            .nav-links.active{left:0;}
+            .nav-links a{font-size:1.8rem;margin:1.5rem 0;}
+            body.light .nav-links{background:rgba(255,255,255,.98);}
+
+            .hero h1{font-size:3rem;}
+            .hero p{font-size:1.2rem;}
+            .tagline{font-size:1.3rem;}
+
+            #about .container,.contact-wrapper{grid-template-columns:1fr;}
+            .contact-info{text-align:center;}
+            .social-links{text-align:center;margin-top:2rem;}
+            .portfolio-grid{gap:2rem;padding:0 15px;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Mr. Scouts</a>
+                <div class="hamburger" id="hamburger">Menu</div>
+                <div class="nav-links" id="navLinks">
+                    <a href="#about">About</a>
+                    <a href="#portfolio">Portfolio</a>
+                    <a href="#collaborate">Services</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Mr. Scouts</h1>
+        <p>Professional Video Editor & Visual Storyteller</p>
+        <div class="tagline">
+            “Each frame tells a story — <strong>I just make it unforgettable.</strong>”
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <div class="container">
+            <div class="about-text">
+                <h2>About Me</h2>
+                <p>As a seasoned video editor with a passion for storytelling, I specialize in creating captivating visual experiences...</p>
+                <div class="skills">
+                    <div class="skill"><div class="skill-name"><span>Adobe Premiere Pro</span><span>95%</span></div><div class="skill-bar"><div class="skill-fill" data-width="95"></div></div></div>
+                    <div class="skill"><div class="skill-name"><span>After Effects</span><span>90%</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
+                    <div class="skill"><div class="skill-name"><span>DaVinci Resolve</span><span>92%</span></div><div class="skill-bar"><div class="skill-fill" data-width="92"></div></div></div>
+                    <div class="skill"><div class="skill-name"><span>Color Grading</span><span>98%</span></div><div class="skill-bar"><div class="skill-fill" data-width="98"></div></div></div>
+                </div>
+            </div>
+            <div>
+                <img src="https://i.postimg.cc/fStQdKMk/Picsart-25-11-06-20-23-11-334.jpg" alt="Mr. Scouts - Video Editor" style="width:100%;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.6);">
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio - UPDATED WITH YOUR 3 INSTAGRAM REELS -->
+    <section id="portfolio">
+        <div class="container">
+            <h2>My Portfolio</h2>
+            <p style="text-align:center;font-size:1.3rem;max-width:800px;margin:0 auto 3rem;">
+                Watch my latest Instagram Reels — cinematic edits, smooth transitions, and pro color grading
+            </p>
+            <div class="portfolio-grid">
+
+                <!-- Reel 1 -->
+                <div class="video-card">
+                    <div class="instagram-wrapper">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DO3Y6Ookj3I/" data-instgrm-version="14" style="max-width:540px; width:100%;">
+                            <a href="https://www.instagram.com/reel/DO3Y6Ookj3I/">Loading Reel...</a>
+                        </blockquote>
+                    </div>
+                    <div class="video-info">
+                        <h3>Cinematic Travel Reel</h3>
+                        <p>Moody color grading • Smooth transitions • Epic storytelling</p>
+                    </div>
+                </div>
+
+                <!-- Reel 2 -->
+                <div class="video-card">
+                    <div class="instagram-wrapper">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DO_UlpkktX5/" data-instgrm-version="14" style="max-width:540px; width:100%;">
+                            <a href="https://www.instagram.com/reel/DO_UlpkktX5/">Loading Reel...</a>
+                        </blockquote>
+                    </div>
+                    <div class="video-info">
+                        <h3>Dynamic Product Promo</h3>
+                        <p>Fast cuts • Motion graphics • Trendy sound design</p>
+                    </div>
+                </div>
+
+                <!-- Reel 3 -->
+                <div class="video-card">
+                    <div class="instagram-wrapper">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DPOZnb1klyl/" data-instgrm-version="14" style="max-width:540px; width:100%;">
+                            <a href="https://www.instagram.com/reel/DPOZnb1klyl/">Loading Reel...</a>
+                        </blockquote>
+                    </div>
+                    <div class="video-info">
+                        <h3>Emotional Wedding Highlight</h3>
+                        <p>Film look • Slow motion • Heartfelt storytelling</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Collaborate -->
+    <section id="collaborate">
+        <div class="container collab-content">
+            <h1>Let’s Create Stunning Visuals Together</h1>
+            <p>Whether it's a short film, vlog, or commercial — let's make it stand out.</p>
+            <div class="services">
+                <div class="service-card"><h4>Video Editing</h4><p>Smooth transitions and story-driven cuts</p></div>
+                <div class="service-card"><h4>Color Grading</h4><p>Professional tone and mood correction</p></div>
+                <div class="service-card"><h4>Motion Graphics</h4><p>Dynamic intros, titles, and effects</p></div>
+                <div class="service-card"><h4>Audio Mixing</h4><p>Balanced and crisp sound for impact</p></div>
+            </div>
+            <div class="testimonial">
+                <p>“Each frame tells a story — I just make it unforgettable.”</p>
+                <cite>— Mr. Scouts</cite>
+            </div>
+            <a href="#contact" class="btn">Get in Touch</a>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <div class="container">
+            <h2>Contact</h2>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>Let's Work Together</h3>
+                    <p>Looking to bring your story to life through visuals? I’d love to collaborate and create something memorable.</p>
+                    <p>Based in Hassan, open to freelance or full-time opportunities.</p>
+                    <div class="contact-details">
+                        <a href="mailto:mr.scouts.7@gmail.com"><i class="fas fa-envelope"></i> mr.scouts.7@gmail.com</a>
+                        <a href="tel:+919606543294"><i class="fas fa-phone"></i> +91 96065 43294</a>
+                        <a href="https://wa.me/919606543294?text=Hi%20Mr.%20Scouts%2C%20saw%20your%20portfolio%21%20Let%27s%20talk%20about%20a%20project" target="_blank" rel="noopener">
+                            <i class="fab fa-whatsapp" style="color:#25D366;"></i> Chat on WhatsApp
+                        </a>
+                        <a href="https://maps.google.com/?q=Hassan,Karnataka,India" target="_blank" rel="noopener">
+                            <i class="fas fa-map-marker-alt"></i> Hassan, Karnataka, India
+                        </a>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://instagram.com/mr.scouts" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@mrscouts" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+                        <a href="https://behance.net/mrscouts" target="_blank" rel="noopener"><i class="fab fa-behance"></i></a>
+                    </div>
+                </div>
+
+                <form action="https://formspree.io/f/mqawzgwe" method="POST">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <input type="text" name="subject" placeholder="Project Type (e.g. Reel, Ad, Wedding)">
+                    <textarea name="message" placeholder="Tell me about your project..." required rows="5"></textarea>
+                    <input type="text" name="_gotchaimaryou" style="display:none">
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/919606543294?text=Hi%20Mr.%20Scouts%2C%20saw%20your%20portfolio%21%20Let%27s%20talk%20about%20a%20project" class="whatsapp-float" target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            © <span id="year"></span> Mr. Scouts. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Instagram Embed Script (MUST BE AT THE END) -->
+    <script async src="//www.instagram.com/embed.js"></script>
+
+    <!-- ====================== JAVASCRIPT ====================== -->
+       <script>
+        /* ---- Theme Toggle ---- */
+        const body = document.body;
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.add('light');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light');
+            if (body.classList.contains('light')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        /* ---- Hamburger Menu ---- */
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        /* ---- Skill Bar Animation ---- */
+        const skillFills = document.querySelectorAll('.skill-fill');
+        const animateSkills = () => {
+            skillFills.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                bar.style.width = width + '%';
+            });
+        };
+        window.addEventListener('load', animateSkills);
+
+        /* ---- Current Year in Footer ---- */
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
